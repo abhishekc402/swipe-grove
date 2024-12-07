@@ -9,6 +9,9 @@ const DUMMY_PROFILES = [
     age: 28,
     image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
     bio: "Adventure seeker & coffee lover",
+    location: "New York City",
+    interests: "Hiking, Photography, Travel",
+    status: "Single"
   },
   {
     id: "2",
@@ -16,8 +19,10 @@ const DUMMY_PROFILES = [
     age: 32,
     image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952",
     bio: "Photographer & world traveler",
+    location: "Los Angeles",
+    interests: "Photography, Music, Surfing",
+    status: "Single"
   },
-  // Add more profiles as needed
 ];
 
 const Home = () => {
