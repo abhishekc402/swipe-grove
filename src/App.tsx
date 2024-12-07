@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import Matches from "./pages/Matches";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,14 @@ const App = () => (
             element={
               <PrivateRoute>
                 <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/matches"
+            element={
+              <PrivateRoute>
+                <Matches />
               </PrivateRoute>
             }
           />
