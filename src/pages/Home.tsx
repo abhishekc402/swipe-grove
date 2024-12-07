@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SwipeCard } from "../components/SwipeCard";
 import { Navigation } from "../components/Navigation";
+import { toast } from "sonner";
 
 const DUMMY_PROFILES = [
   {
