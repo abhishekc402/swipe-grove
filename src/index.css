@@ -31,8 +31,13 @@
 
   .profile-card {
     @apply absolute inset-0 glass-card rounded-3xl overflow-hidden 
-           transform transition-all duration-300 cursor-grab active:cursor-grabbing;
+           transform transition-all duration-300 cursor-grab active:cursor-grabbing
+           hover:shadow-2xl;
   }
+}
+
+.dark {
+  color-scheme: dark;
 }
 
 .swipe-overlay-left {

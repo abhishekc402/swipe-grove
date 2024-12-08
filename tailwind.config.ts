@@ -19,14 +19,14 @@ export default {
     },
     extend: {
       colors: {
-        primary: "#FF3B5C",
-        secondary: "#6B46C1",
+        primary: "#FD3A73", // Tinder pink
+        secondary: "#424242",
         background: "#FFFFFF",
         foreground: "#1A1A1A",
         muted: "#F3F4F6",
         accent: {
-          DEFAULT: "#FF3B5C",
-          secondary: "#6B46C1",
+          DEFAULT: "#FD3A73",
+          secondary: "#FF7854", // Tinder gradient end
         },
       },
       keyframes: {
@@ -46,15 +46,18 @@ export default {
           "0%": { transform: "scale(0.95)", opacity: "0" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        "super-like": {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.2)" },
+          "100%": { transform: "scale(1)" },
+        }
       },
       animation: {
         "slide-up": "slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
         "slide-down": "slide-down 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
         "fade-in": "fade-in 0.4s ease-out",
         "scale-up": "scale-up 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-      },
-      backdropBlur: {
-        xs: "2px",
+        "super-like": "super-like 0.6s ease-in-out",
       },
     },
   },

@@ -112,10 +112,12 @@ const Home = () => {
 
   const handleSwipe = (direction: "left" | "right") => {
     if (direction === "right") {
-      // Simulate a match with 30% probability
       if (Math.random() < 0.3) {
         setMatches(prev => [...prev, DUMMY_PROFILES[currentIndex].id]);
-        toast.success(`It's a match with ${DUMMY_PROFILES[currentIndex].name}!`);
+        toast.success(`It's a match with ${DUMMY_PROFILES[currentIndex].name}! 💖`, {
+          duration: 3000,
+          className: "bg-gradient-to-r from-primary to-accent-secondary text-white",
+        });
       }
     }
     
@@ -125,29 +127,35 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      {matches.length > 0 && (
-        <div className="pt-4 px-4">
-          <h2 className="text-xl font-semibold mb-4">Your Matches</h2>
-          <div className="flex overflow-x-auto gap-4 pb-4">
-            {matches.map(matchId => {
-              const profile = DUMMY_PROFILES.find(p => p.id === matchId);
-              return profile ? (
-                <div key={profile.id} className="flex-shrink-0">
-                  <img
-                    src={profile.image}
-                    alt={profile.name}
-                    className="w-16 h-16 rounded-full object-cover"
-                  />
-                  <p className="text-sm text-center mt-1">{profile.name}</p>
-                </div>
-              ) : null;
-            })}
-          </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="fixed top-0 left-0 right-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-md mx-auto px-4 py-4">
+          <h1 className="text-2xl font-bold text-primary text-center">Tinder Clone</h1>
         </div>
-      )}
+      </div>
 
-      <div className="pt-8 px-4">
+      <div className="pt-20 pb-24 px-4">
+        {matches.length > 0 && (
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-4 dark:text-white">Your Matches</h2>
+            <div className="flex overflow-x-auto gap-4 pb-4">
+              {matches.map(matchId => {
+                const profile = DUMMY_PROFILES.find(p => p.id === matchId);
+                return profile ? (
+                  <div key={profile.id} className="flex-shrink-0">
+                    <img
+                      src={profile.image}
+                      alt={profile.name}
+                      className="w-16 h-16 rounded-full object-cover border-2 border-primary"
+                    />
+                    <p className="text-sm text-center mt-1 dark:text-white">{profile.name}</p>
+                  </div>
+                ) : null;
+              })}
+            </div>
+          </div>
+        )}
+
         {currentIndex < DUMMY_PROFILES.length ? (
           <div className="card-stack">
             <SwipeCard
@@ -158,10 +166,10 @@ const Home = () => {
           </div>
         ) : (
           <div className="text-center py-12">
-            <h2 className="text-2xl font-semibold text-gray-600">
+            <h2 className="text-2xl font-semibold text-gray-600 dark:text-gray-300">
               No more profiles to show
             </h2>
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-500 dark:text-gray-400 mt-2">
               Check back later for more matches
             </p>
           </div>
