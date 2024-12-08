@@ -3,24 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: #ffffff;
-    --foreground: #000000;
-  }
-
-  .dark {
-    --background: #1a1a1a;
-    --foreground: #ffffff;
-  }
-
   body {
-    @apply bg-background text-foreground antialiased min-h-screen;
+    @apply bg-background text-foreground antialiased;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/80 dark:bg-black/80 backdrop-blur-sm border border-white/20 dark:border-black/20 shadow-lg;
+    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg;
   }
   
   .button-primary {
