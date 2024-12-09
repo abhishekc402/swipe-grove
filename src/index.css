@@ -3,6 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+  }
+
+  .dark {
+    --background: 0 0% 10%;
+    --foreground: 0 0% 98%;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
   }
@@ -41,7 +51,12 @@
   @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg !important;
 }
 
+[data-radix-select-viewport] {
+  @apply p-2 !important;
+}
+
 [data-radix-select-item] {
+  @apply relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 !important;
   @apply text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 !important;
 }
 
@@ -50,18 +65,19 @@
   content: " km";
 }
 
-/* Theme styles */
-.theme-dark {
-  --background: theme('colors.theme.dark');
-  --foreground: theme('colors.white');
+/* Dark theme styles */
+.dark body {
+  @apply bg-theme-dark-bg text-white;
 }
 
-.theme-pink {
-  --background: theme('colors.theme.pink');
-  --foreground: theme('colors.white');
+.dark .glass-card {
+  @apply bg-gray-900/80 border-gray-800/20;
 }
 
-.theme-purple {
-  --background: theme('colors.theme.purple');
-  --foreground: theme('colors.white');
+.dark [data-radix-select-content] {
+  @apply bg-gray-900 border-gray-800;
+}
+
+.dark [data-radix-select-item] {
+  @apply text-white hover:bg-gray-800;
 }

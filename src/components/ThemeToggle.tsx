@@ -1,16 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Palette } from "lucide-react";
-import { useState } from "react";
+import { Moon, Sun } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export const ThemeToggle = () => {
-  const [theme, setTheme] = useState("light");
+  const [isDark, setIsDark] = useState(false);
 
-  const handleThemeChange = () => {
-    const themes = ["light", "dark", "pink", "purple"];
-    const currentIndex = themes.indexOf(theme);
-    const nextTheme = themes[(currentIndex + 1) % themes.length];
-    setTheme(nextTheme);
-    document.documentElement.className = nextTheme === "light" ? "" : `theme-${nextTheme}`;
+  useEffect(() => {
+    const isDarkMode = document.documentElement.classList.contains('dark');
+    setIsDark(isDarkMode);
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+    if (isDark) {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
   };
 
   return (
@@ -18,14 +24,12 @@ export const ThemeToggle = () => {
       variant="outline"
       size="icon"
       className="rounded-full"
-      onClick={handleThemeChange}
+      onClick={toggleTheme}
     >
-      {theme === "light" ? (
-        <Sun className="h-5 w-5" />
-      ) : theme === "dark" ? (
+      {isDark ? (
         <Moon className="h-5 w-5" />
       ) : (
-        <Palette className="h-5 w-5" />
+        <Sun className="h-5 w-5" />
       )}
     </Button>
   );

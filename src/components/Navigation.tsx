@@ -8,6 +8,7 @@ export const Navigation = () => {
   const [isLiking, setIsLiking] = useState(false);
   const [superLikeCount, setSuperLikeCount] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [confetti, setConfetti] = useState<Array<{ id: number; left: string }>>([]);
   
   const isActive = (path: string) => location.pathname === path;
 
@@ -22,6 +23,15 @@ export const Navigation = () => {
     return () => clearTimeout(timer);
   }, [isAnimating]);
 
+  const createConfetti = () => {
+    const newConfetti = Array.from({ length: 50 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+    }));
+    setConfetti(newConfetti);
+    setTimeout(() => setConfetti([]), 1000);
+  };
+
   const handleSuperLike = () => {
     if (!isAnimating) {
       setIsAnimating(true);
@@ -29,6 +39,7 @@ export const Navigation = () => {
       setIsLiking(true);
     } else {
       setSuperLikeCount(2);
+      createConfetti();
       toast("Super Like! 🌟", {
         description: "You've used a Super Like!",
         duration: 2000,
@@ -53,51 +64,60 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 px-6 py-4 shadow-lg">
-      <div className="max-w-md mx-auto flex justify-around items-center">
-        <Link
-          to="/home"
-          className={`p-3 rounded-full transition-all ${
-            isActive("/home") ? "text-primary scale-110" : "text-gray-500"
-          }`}
-        >
-          <Home 
-            className="w-7 h-7"
-            fill={isActive("/home") ? "currentColor" : "none"}
-          />
-        </Link>
-        <button
-          className={`p-3 rounded-full transition-all ${getSuperLikeColor()}`}
-          onClick={handleSuperLike}
-        >
-          <Heart 
-            className={`w-7 h-7 ${isAnimating ? 'animate-bounce' : ''} ${isLiking ? 'animate-super-like' : ''}`}
-            fill={superLikeCount > 0 ? "currentColor" : "none"}
-          />
-        </button>
-        <Link
-          to="/matches"
-          className={`p-3 rounded-full transition-all ${
-            isActive("/matches") ? "text-primary scale-110" : "text-gray-500"
-          }`}
-        >
-          <MessageCircle 
-            className="w-7 h-7"
-            fill={isActive("/matches") ? "currentColor" : "none"}
-          />
-        </Link>
-        <Link
-          to="/profile"
-          className={`p-3 rounded-full transition-all ${
-            isActive("/profile") ? "text-primary scale-110" : "text-gray-500"
-          }`}
-        >
-          <User 
-            className="w-7 h-7"
-            fill={isActive("/profile") ? "currentColor" : "none"}
-          />
-        </Link>
-      </div>
-    </nav>
+    <>
+      {confetti.map((c) => (
+        <div
+          key={c.id}
+          className="fixed w-2 h-2 bg-primary rounded-full animate-confetti"
+          style={{ left: c.left, top: "-10px" }}
+        />
+      ))}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 px-6 py-4 shadow-lg">
+        <div className="max-w-md mx-auto flex justify-around items-center">
+          <Link
+            to="/home"
+            className={`p-3 rounded-full transition-all ${
+              isActive("/home") ? "text-primary scale-110" : "text-gray-500"
+            }`}
+          >
+            <Home 
+              className="w-7 h-7"
+              fill={isActive("/home") ? "currentColor" : "none"}
+            />
+          </Link>
+          <button
+            className={`p-3 rounded-full transition-all ${getSuperLikeColor()}`}
+            onClick={handleSuperLike}
+          >
+            <Heart 
+              className={`w-7 h-7 ${isAnimating ? 'animate-bounce' : ''} ${isLiking ? 'animate-super-like' : ''}`}
+              fill={superLikeCount > 0 ? "currentColor" : "none"}
+            />
+          </button>
+          <Link
+            to="/matches"
+            className={`p-3 rounded-full transition-all ${
+              isActive("/matches") ? "text-primary scale-110" : "text-gray-500"
+            }`}
+          >
+            <MessageCircle 
+              className="w-7 h-7"
+              fill={isActive("/matches") ? "currentColor" : "none"}
+            />
+          </Link>
+          <Link
+            to="/profile"
+            className={`p-3 rounded-full transition-all ${
+              isActive("/profile") ? "text-primary scale-110" : "text-gray-500"
+            }`}
+          >
+            <User 
+              className="w-7 h-7"
+              fill={isActive("/profile") ? "currentColor" : "none"}
+            />
+          </Link>
+        </div>
+      </nav>
+    </>
   );
 };
