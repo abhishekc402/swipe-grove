@@ -3,6 +3,7 @@ import { SwipeCard } from "../components/SwipeCard";
 import { Navigation } from "../components/Navigation";
 import { FilterPanel } from "../components/FilterPanel";
 import { ThemeToggle } from "../components/ThemeToggle";
+import { toast } from "sonner";
 
 const DUMMY_PROFILES = [
   {
@@ -115,7 +116,7 @@ const Home = () => {
     if (direction === "right") {
       if (Math.random() < 0.3) {
         setMatches(prev => [...prev, DUMMY_PROFILES[currentIndex].id]);
-        toast.success(`It's a match with ${DUMMY_PROFILES[currentIndex].name}! 💖`, {
+        toast(`It's a match with ${DUMMY_PROFILES[currentIndex].name}! 💖`, {
           duration: 3000,
           className: "bg-gradient-to-r from-primary to-accent-secondary text-white",
         });
