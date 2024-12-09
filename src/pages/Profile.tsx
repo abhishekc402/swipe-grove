@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { Navigation } from "@/components/Navigation";
 
 const Profile = () => {
   const [profile, setProfile] = useState({
@@ -28,9 +29,10 @@ const Profile = () => {
   };
 
   return (
-    <div className="container max-w-2xl mx-auto p-6 pb-24">
-      <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
-      <form onSubmit={handleSubmit} className="space-y-6">
+    <>
+      <div className="container max-w-2xl mx-auto p-6 pb-24">
+        <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-2">
           <label className="text-sm font-medium">Name</label>
           <Input
@@ -122,8 +124,10 @@ const Profile = () => {
         <Button type="submit" className="w-full button-primary">
           Save Profile
         </Button>
-      </form>
-    </div>
+        </form>
+      </div>
+      <Navigation />
+    </>
   );
 };
 

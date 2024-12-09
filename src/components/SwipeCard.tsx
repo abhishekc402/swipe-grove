@@ -78,11 +78,11 @@ export const SwipeCard = ({ profile, onSwipe }: Props) => {
                 📍 {profile.location}
               </p>
             )}
-            <p className="text-base opacity-80 line-clamp-2">{profile.bio}</p>
+            <p className="text-base opacity-80 line-clamp-2 mb-16">{profile.bio}</p>
           </div>
 
           {/* Action Buttons */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4">
+          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-8">
             <button 
               className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
               onClick={(e) => {
