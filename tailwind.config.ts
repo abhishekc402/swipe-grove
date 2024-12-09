@@ -26,6 +26,7 @@ export default {
         muted: "#F3F4F6",
         accent: {
           DEFAULT: "#FD3A73",
+          foreground: "#FFFFFF", // Adding accent-foreground
           secondary: "#FF7854", // Tinder gradient end
         },
         theme: {

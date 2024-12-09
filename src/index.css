@@ -56,7 +56,9 @@
 }
 
 [data-radix-select-item] {
-  @apply relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 !important;
+  @apply relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none 
+         hover:bg-accent hover:text-white
+         data-[disabled]:pointer-events-none data-[disabled]:opacity-50 !important;
   @apply text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 !important;
 }
 
