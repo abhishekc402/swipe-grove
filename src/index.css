@@ -38,11 +38,11 @@
 
 /* Select dropdown styles */
 [data-radix-select-content] {
-  @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg;
+  @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-lg !important;
 }
 
 [data-radix-select-item] {
-  @apply text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800;
+  @apply text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 !important;
 }
 
 /* Distance slider value */
@@ -50,4 +50,18 @@
   content: " km";
 }
 
-/* ... keep existing code (other styles) */
+/* Theme styles */
+.theme-dark {
+  --background: theme('colors.theme.dark');
+  --foreground: theme('colors.white');
+}
+
+.theme-pink {
+  --background: theme('colors.theme.pink');
+  --foreground: theme('colors.white');
+}
+
+.theme-purple {
+  --background: theme('colors.theme.purple');
+  --foreground: theme('colors.white');
+}

@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { SwipeCard } from "../components/SwipeCard";
 import { Navigation } from "../components/Navigation";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { SlidersHorizontal, X } from "lucide-react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { FilterPanel } from "../components/FilterPanel";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 const DUMMY_PROFILES = [
   {
@@ -112,7 +110,6 @@ const DUMMY_PROFILES = [
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [matches, setMatches] = useState<string[]>([]);
-  const [showFilters, setShowFilters] = useState(false);
 
   const handleSwipe = (direction: "left" | "right") => {
     if (direction === "right") {
@@ -136,51 +133,10 @@ const Home = () => {
       <div className="fixed top-0 left-0 right-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
         <div className="max-w-md mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-primary">Tinder Clone</h1>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button 
-                variant="outline" 
-                size="icon"
-                className="rounded-full hover:bg-muted"
-              >
-                <SlidersHorizontal className="h-5 w-5" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Filters</SheetTitle>
-              </SheetHeader>
-              <div className="py-6">
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium">Age Range</label>
-                    <div className="flex items-center gap-4 mt-2">
-                      <input type="number" placeholder="18" className="w-20 px-3 py-2 border rounded-md" />
-                      <span>to</span>
-                      <input type="number" placeholder="35" className="w-20 px-3 py-2 border rounded-md" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Distance</label>
-                    <input 
-                      type="range" 
-                      min="1" 
-                      max="100" 
-                      className="w-full mt-2"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Looking for</label>
-                    <div className="flex gap-2 mt-2">
-                      <Button variant="outline" className="rounded-full">Men</Button>
-                      <Button variant="outline" className="rounded-full">Women</Button>
-                      <Button variant="outline" className="rounded-full">Everyone</Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+          <div className="flex gap-2">
+            <ThemeToggle />
+            <FilterPanel />
+          </div>
         </div>
       </div>
 

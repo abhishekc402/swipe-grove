@@ -1,40 +1,54 @@
 import { Link, useLocation } from "react-router-dom";
 import { Heart, MessageCircle, User, Home } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 export const Navigation = () => {
   const location = useLocation();
   const [isLiking, setIsLiking] = useState(false);
   const [superLikeCount, setSuperLikeCount] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
   
   const isActive = (path: string) => location.pathname === path;
 
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isAnimating) {
+      timer = setTimeout(() => {
+        setIsAnimating(false);
+        setSuperLikeCount(0);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [isAnimating]);
+
   const handleSuperLike = () => {
-    setIsLiking(true);
-    setSuperLikeCount((prev) => {
-      const newCount = (prev + 1) % 3;
-      if (newCount === 2) {
-        toast("Super Like! 🌟", {
-          description: "You've used a Super Like!",
-          duration: 2000,
-        });
-      }
-      return newCount;
-    });
-    setTimeout(() => setIsLiking(false), 600);
+    if (!isAnimating) {
+      setIsAnimating(true);
+      setSuperLikeCount(1);
+      setIsLiking(true);
+    } else {
+      setSuperLikeCount(2);
+      toast("Super Like! 🌟", {
+        description: "You've used a Super Like!",
+        duration: 2000,
+      });
+      setTimeout(() => {
+        setIsAnimating(false);
+        setIsLiking(false);
+        setSuperLikeCount(0);
+      }, 600);
+    }
   };
 
   const getSuperLikeColor = () => {
     switch (superLikeCount) {
-      case 0:
-        return "text-blue-500";
       case 1:
-        return "text-gradient-to-r from-blue-500 to-primary";
-      case 2:
-        return "text-primary";
-      default:
         return "text-blue-500";
+      case 2:
+        return "text-orange-500";
+      default:
+        return "text-gray-500";
     }
   };
 
@@ -52,16 +66,15 @@ export const Navigation = () => {
             fill={isActive("/home") ? "currentColor" : "none"}
           />
         </Link>
-        <Link
-          to="/home"
+        <button
           className={`p-3 rounded-full transition-all ${getSuperLikeColor()}`}
+          onClick={handleSuperLike}
         >
           <Heart 
-            className={`w-7 h-7 ${isLiking ? 'animate-super-like' : ''}`}
-            onClick={handleSuperLike}
+            className={`w-7 h-7 ${isAnimating ? 'animate-bounce' : ''} ${isLiking ? 'animate-super-like' : ''}`}
             fill={superLikeCount > 0 ? "currentColor" : "none"}
           />
-        </Link>
+        </button>
         <Link
           to="/matches"
           className={`p-3 rounded-full transition-all ${
