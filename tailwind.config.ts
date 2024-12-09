@@ -64,8 +64,28 @@ export default {
           "50%": { transform: "translateY(-10px)" },
         },
         "confetti": {
-          "0%": { transform: "translateY(0) rotate(0deg)", opacity: "1" },
-          "100%": { transform: "translateY(100vh) rotate(360deg)", opacity: "0" }
+          "0%": { 
+            transform: "translateY(0) rotate(0deg)",
+            opacity: "1"
+          },
+          "100%": { 
+            transform: "translateY(100vh) rotate(720deg)",
+            opacity: "0"
+          }
+        },
+        "super-like-popup": {
+          "0%": { 
+            transform: "scale(0.5) translateY(20px)",
+            opacity: "0"
+          },
+          "50%": { 
+            transform: "scale(1.1) translateY(0)",
+            opacity: "1"
+          },
+          "100%": { 
+            transform: "scale(1) translateY(0)",
+            opacity: "1"
+          }
         }
       },
       animation: {
@@ -75,7 +95,8 @@ export default {
         "scale-up": "scale-up 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
         "super-like": "super-like 0.6s ease-in-out",
         "bounce": "bounce-slow 2s infinite",
-        "confetti": "confetti 1s ease-out forwards"
+        "confetti": "confetti 2s ease-out forwards",
+        "super-like-popup": "super-like-popup 0.5s ease-out forwards"
       },
     },
   },

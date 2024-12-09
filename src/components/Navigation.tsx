@@ -8,7 +8,7 @@ export const Navigation = () => {
   const [isLiking, setIsLiking] = useState(false);
   const [superLikeCount, setSuperLikeCount] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [confetti, setConfetti] = useState<Array<{ id: number; left: string }>>([]);
+  const [confetti, setConfetti] = useState<Array<{ id: number; left: string; color: string }>>([]);
   
   const isActive = (path: string) => location.pathname === path;
 
@@ -24,12 +24,14 @@ export const Navigation = () => {
   }, [isAnimating]);
 
   const createConfetti = () => {
-    const newConfetti = Array.from({ length: 50 }, (_, i) => ({
+    const colors = ['#FD3A73', '#FF7854', '#9b87f5', '#7E69AB'];
+    const newConfetti = Array.from({ length: 100 }, (_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
+      color: colors[Math.floor(Math.random() * colors.length)],
     }));
     setConfetti(newConfetti);
-    setTimeout(() => setConfetti([]), 1000);
+    setTimeout(() => setConfetti([]), 2000);
   };
 
   const handleSuperLike = () => {
@@ -40,9 +42,15 @@ export const Navigation = () => {
     } else {
       setSuperLikeCount(2);
       createConfetti();
-      toast("Super Like! 🌟", {
-        description: "You've used a Super Like!",
+      toast.custom((t) => (
+        <div className="bg-gradient-to-r from-primary to-accent-secondary p-4 rounded-lg shadow-lg transform transition-all duration-500 hover:scale-105">
+          <div className="animate-bounce text-white text-xl font-bold text-center">
+            ✨ Super Like! ✨
+          </div>
+        </div>
+      ), {
         duration: 2000,
+        position: 'top-center',
       });
       setTimeout(() => {
         setIsAnimating(false);
@@ -68,8 +76,13 @@ export const Navigation = () => {
       {confetti.map((c) => (
         <div
           key={c.id}
-          className="fixed w-2 h-2 bg-primary rounded-full animate-confetti"
-          style={{ left: c.left, top: "-10px" }}
+          className="fixed w-3 h-3 rounded-full animate-confetti"
+          style={{ 
+            left: c.left, 
+            top: "-10px",
+            backgroundColor: c.color,
+            transform: `rotate(${Math.random() * 360}deg)`,
+          }}
         />
       ))}
       <nav className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 px-6 py-4 shadow-lg">
