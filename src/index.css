@@ -48,7 +48,7 @@
 
 /* Select dropdown styles */
 [data-radix-select-content] {
-  @apply bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border border-gray-200 dark:border-gray-800 shadow-lg !important;
+  @apply bg-white/95 backdrop-blur-sm border border-gray-200 shadow-lg !important;
 }
 
 [data-radix-select-viewport] {
@@ -59,7 +59,6 @@
   @apply relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none 
          hover:bg-accent hover:text-white
          data-[disabled]:pointer-events-none data-[disabled]:opacity-50 !important;
-  @apply text-gray-900 dark:text-white hover:bg-accent dark:hover:bg-accent !important;
 }
 
 /* Distance slider value */
@@ -81,21 +80,5 @@
 }
 
 .dark [data-radix-select-item] {
-  @apply text-white hover:bg-accent hover:text-white;
-}
-
-/* Confetti animation enhancement */
-@keyframes confetti-fall {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotate(720deg);
-    opacity: 0;
-  }
-}
-
-.animate-confetti {
-  animation: confetti-fall 2s ease-out forwards;
+  @apply text-white hover:bg-accent;
 }

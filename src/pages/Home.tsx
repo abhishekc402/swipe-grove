@@ -118,7 +118,7 @@ const Home = () => {
         setMatches(prev => [...prev, DUMMY_PROFILES[currentIndex].id]);
         toast(`It's a match with ${DUMMY_PROFILES[currentIndex].name}! 💖`, {
           duration: 3000,
-          className: "bg-gradient-to-r from-primary to-accent-secondary text-white",
+          className: "bg-gradient-to-r from-primary to-accent text-white",
         });
       }
     }
