@@ -2,6 +2,9 @@ import { useState } from "react";
 import { SwipeCard } from "../components/SwipeCard";
 import { Navigation } from "../components/Navigation";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { SlidersHorizontal, X } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 const DUMMY_PROFILES = [
   {
@@ -109,6 +112,7 @@ const DUMMY_PROFILES = [
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [matches, setMatches] = useState<string[]>([]);
+  const [showFilters, setShowFilters] = useState(false);
 
   const handleSwipe = (direction: "left" | "right") => {
     if (direction === "right") {
@@ -128,34 +132,87 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      {/* Header */}
       <div className="fixed top-0 left-0 right-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-md mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold text-primary text-center">Tinder Clone</h1>
+        <div className="max-w-md mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-primary">Tinder Clone</h1>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button 
+                variant="outline" 
+                size="icon"
+                className="rounded-full hover:bg-muted"
+              >
+                <SlidersHorizontal className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Filters</SheetTitle>
+              </SheetHeader>
+              <div className="py-6">
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium">Age Range</label>
+                    <div className="flex items-center gap-4 mt-2">
+                      <input type="number" placeholder="18" className="w-20 px-3 py-2 border rounded-md" />
+                      <span>to</span>
+                      <input type="number" placeholder="35" className="w-20 px-3 py-2 border rounded-md" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">Distance</label>
+                    <input 
+                      type="range" 
+                      min="1" 
+                      max="100" 
+                      className="w-full mt-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">Looking for</label>
+                    <div className="flex gap-2 mt-2">
+                      <Button variant="outline" className="rounded-full">Men</Button>
+                      <Button variant="outline" className="rounded-full">Women</Button>
+                      <Button variant="outline" className="rounded-full">Everyone</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
 
-      <div className="pt-20 pb-24 px-4">
-        {matches.length > 0 && (
-          <div className="mb-6">
+      {/* Matches Section */}
+      {matches.length > 0 && (
+        <div className="pt-20 pb-4 px-4">
+          <div className="max-w-md mx-auto">
             <h2 className="text-xl font-semibold mb-4 dark:text-white">Your Matches</h2>
-            <div className="flex overflow-x-auto gap-4 pb-4">
+            <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide">
               {matches.map(matchId => {
                 const profile = DUMMY_PROFILES.find(p => p.id === matchId);
                 return profile ? (
-                  <div key={profile.id} className="flex-shrink-0">
-                    <img
-                      src={profile.image}
-                      alt={profile.name}
-                      className="w-16 h-16 rounded-full object-cover border-2 border-primary"
-                    />
+                  <div key={profile.id} className="flex-shrink-0 animate-scale-up">
+                    <div className="relative w-16 h-16">
+                      <img
+                        src={profile.image}
+                        alt={profile.name}
+                        className="w-16 h-16 rounded-full object-cover border-2 border-primary"
+                      />
+                      <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white" />
+                    </div>
                     <p className="text-sm text-center mt-1 dark:text-white">{profile.name}</p>
                   </div>
                 ) : null;
               })}
             </div>
           </div>
-        )}
+        </div>
+      )}
 
+      {/* Cards Section */}
+      <div className="pt-20 pb-24 px-4">
         {currentIndex < DUMMY_PROFILES.length ? (
           <div className="card-stack">
             <SwipeCard
@@ -165,7 +222,7 @@ const Home = () => {
             />
           </div>
         ) : (
-          <div className="text-center py-12">
+          <div className="text-center py-12 animate-fade-in">
             <h2 className="text-2xl font-semibold text-gray-600 dark:text-gray-300">
               No more profiles to show
             </h2>
@@ -175,6 +232,7 @@ const Home = () => {
           </div>
         )}
       </div>
+
       <Navigation />
     </div>
   );
