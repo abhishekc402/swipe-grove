@@ -4,31 +4,52 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+const formSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
-    email: "",
-    confirmPassword: "",
-  });
   const navigate = useNavigate();
+  const { signIn, signUp } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isLogin) {
-      if (credentials.username === "admin" && credentials.password === "admin") {
-        localStorage.setItem("isLoggedIn", "true");
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>, isLogin: boolean) => {
+    setIsLoading(true);
+    try {
+      if (isLogin) {
+        await signIn(values.email, values.password);
         toast.success("Successfully logged in!");
         navigate("/home");
       } else {
-        toast.error("Invalid credentials!");
+        await signUp(values.email, values.password);
+        toast.success("Account created! Please check your email to confirm your account.");
       }
-    } else {
-      // Signup logic would go here
-      toast.success("Account created successfully!");
-      setIsLogin(true);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "An error occurred");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,67 +79,75 @@ const Login = () => {
             </TabsList>
             
             <TabsContent value="login">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Input
-                  type="text"
-                  placeholder="Username"
-                  value={credentials.username}
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, username: e.target.value })
-                  }
-                />
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  value={credentials.password}
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, password: e.target.value })
-                  }
-                />
-                <Button type="submit" className="w-full button-primary">
-                  Sign In
-                </Button>
-              </form>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit((values) => onSubmit(values, true))} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="email@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input type="password" placeholder="••••••" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Loading..." : "Sign In"}
+                  </Button>
+                </form>
+              </Form>
             </TabsContent>
 
             <TabsContent value="signup">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Input
-                  type="text"
-                  placeholder="Username"
-                  value={credentials.username}
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, username: e.target.value })
-                  }
-                />
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={credentials.email}
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, email: e.target.value })
-                  }
-                />
-                <Input
-                  type="password"
-                  placeholder="Password"
-                  value={credentials.password}
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, password: e.target.value })
-                  }
-                />
-                <Input
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={credentials.confirmPassword}
-                  onChange={(e) =>
-                    setCredentials({ ...credentials, confirmPassword: e.target.value })
-                  }
-                />
-                <Button type="submit" className="w-full button-primary">
-                  Create Account
-                </Button>
-              </form>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit((values) => onSubmit(values, false))} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="email@example.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <Input type="password" placeholder="••••••" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? "Loading..." : "Create Account"}
+                  </Button>
+                </form>
+              </Form>
             </TabsContent>
           </Tabs>
         </div>
